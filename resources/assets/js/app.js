@@ -29,12 +29,18 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 * a simple convenience so we don't have to attach every token manually.
 */
 
-let token = document.head.querySelector('meta[name="csrf-token"]');
+let csrf_token = document.head.querySelector('meta[name="csrf-token"]');
 
-if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+if (csrf_token) {
+  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf_token.content;
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
+
+let id_token = localStorage.getItem('id_token');
+
+if( id_token ) {
+  window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('id_token');
 }
 
 /**
@@ -45,4 +51,4 @@ if (token) {
 
 import Vue from 'vue';
 
-new Vue().$mount(#app);
+new Vue().$mount('#app');
