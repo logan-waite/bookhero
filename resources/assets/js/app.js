@@ -50,5 +50,25 @@ if( id_token ) {
 */
 
 import Vue from 'vue';
+import router from './routes.js';
 
-new Vue().$mount('#app');
+router.beforeEach((to, from, next) => {
+  if ( to.matched.some(record => record.meta.requiresAuth ) ) {
+    setTimeout(function() { // Because pulling from localStorage is slow.
+      if ( ! store.getters.isAuthorized ) {
+        next({
+          path: '/login',
+          query: { redirect: to.fullPath }
+        });
+      }
+      else {
+        next();
+      }
+    }, 50);
+  }
+  next();
+});
+
+new Vue({
+  router,
+}).$mount('#app');
