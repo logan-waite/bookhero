@@ -37,11 +37,11 @@ if (csrf_token) {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-let id_token = localStorage.getItem('id_token');
-
-if( id_token ) {
-  window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('id_token');
-}
+// let id_token = localStorage.getItem('id_token');
+//
+// if( id_token ) {
+//   window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('id_token');
+// }
 
 /**
 * Next, we will create a fresh Vue application instance and attach it to
@@ -53,23 +53,45 @@ import Vue from 'vue';
 import router from './routes.js';
 import store from './store.js';
 router.beforeEach((to, from, next) => {
-  // if ( to.matched.some(record => record.meta.requiresAuth ) ) {
-  //   setTimeout(function() { // Because pulling from localStorage is slow.
-  //     if ( ! store.getters.isAuthorized ) {
-  //       next({
-  //         path: '/login',
-  //         query: { redirect: to.fullPath }
-  //       });
-  //     }
-  //     else {
-  //       next();
-  //     }
-  //   }, 50);
-  // }
-  next();
+  if ( to.matched.some(record => record.meta.requiresAuth ) ) {
+    setTimeout(function() { // Because otherwise we get redirected to login before actually getting the object
+      if ( _.isEmpty(store.getters.getUser) ) {
+        store.dispatch( 'getUserInfo' )
+        .then( function( result ) {
+          if ( _.isEmpty( result ) ) {
+            next({
+              path: '/login',
+              query: { redirect: to.fullPath }
+            });
+          } else {
+            next();
+          }
+        });
+      } else {
+        next();
+      }
+    }, 50);
+  } else {
+    next();
+  }
 });
 
 new Vue({
   router,
-  store
+  store,
+  created() {
+    if ( _.isEmpty(store.getters.getUser) ) {
+      // Check local storage to see if we've saved the token
+      var token = localStorage.getItem("token");
+
+      if ( token !== null ) {
+        window.axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+        // this.$store.dispatch( 'refreshLogin', { user_id, token } )
+        // .then(function() {
+          store.dispatch( 'getUserInfo' );
+          // EventBus.$emit( 'refreshAllData' );
+        // });
+      }
+    }
+  }
 }).$mount('#app');

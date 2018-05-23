@@ -33,7 +33,18 @@ export default {
   },
   methods: {
     login: function() {
+      var self = this;
       this.$store.dispatch('login', { email: this.email, password: this.password })
+        .then( () => {
+          this.$store.dispatch('getUserInfo')
+          .then( () => {
+            if ( this.$route.query.redirect !== undefined ) {
+              this.$router.push(this.$route.query.redirect);
+            } else {
+              this.$router.push( '/' );
+            }  
+          });
+        });
     }
   }
 }

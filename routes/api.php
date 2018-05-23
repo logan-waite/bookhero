@@ -26,6 +26,7 @@ Route::group([
     Route::post('/v1/login', 'Api\AuthController@login');
     Route::post('/v1/logout', 'Api\AuthController@logout');
     Route::post('/v1/refresh', 'Api\AuthController@refresh');
-    Route::post('/v1/me', 'Api\AuthController@me');
+    Route::post('/v1/register', 'Api\AuthController@register');
+    Route::get('/v1/user', 'Api\UserController@getUser');
 
 });

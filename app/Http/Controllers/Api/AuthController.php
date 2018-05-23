@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -38,23 +43,39 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register()
+    public function register(Request $request)
     {
       // The register function will simply check the database for
       // matching emails and add the credentials.
       // After, we'll attempt to login in with the new credentials.
 
-      
-    }
+      // verify credentials
+      $name = $request->get('name',null);
+      $email = $request->get('email',null);
+      $password = $request->get('password',null);
 
-    /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
-    {
-        return response()->json(auth()->user());
+      $user = User::where('email', $email)->first();
+      // check if email already exists
+      if ( $user !== null) {
+        return Response::create([ 'message' => 'Email already in use.' ], 409);
+      }
+
+      // create user
+      $user = new User();
+      $user->fill([
+        'name' => $name,
+        'email' => $email,
+        'password' => Hash::make($password)
+      ]);
+
+      try {
+          $user->saveOrFail();
+
+      } catch (\Throwable $exception) {
+          return Response::create([ 'message' => $exception->getMessage() ], 500);
+      }
+
+      return $user;
     }
 
     /**

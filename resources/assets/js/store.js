@@ -24,6 +24,7 @@ Vue.use( Vuex );
     Imports all of the modules used in the application to build the data store.
 */
 import { auth } from './modules/auth.js';
+import { users } from './modules/users.js';
 
 /*
   Exports our data store.
@@ -31,5 +32,6 @@ import { auth } from './modules/auth.js';
 export default new Vuex.Store({
   modules: {
     auth,
+    users,
   }
 });
