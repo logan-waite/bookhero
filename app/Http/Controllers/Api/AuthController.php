@@ -14,7 +14,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     /**
@@ -31,6 +31,20 @@ class AuthController extends Controller
         }
 
         return $this->respondWithToken($token);
+    }
+
+    /**
+     * Create a new user entry.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register()
+    {
+      // The register function will simply check the database for
+      // matching emails and add the credentials.
+      // After, we'll attempt to login in with the new credentials.
+
+      
     }
 
     /**
