@@ -32,6 +32,9 @@ export const auth = {
           reject( error );
         })
       });
+    },
+    register: function({ commit }) {
+      
     }
   },
   mutations: {

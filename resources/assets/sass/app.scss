@@ -2,13 +2,13 @@
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 
+@import '~bootstrap/scss/bootstrap';
+
 // Abstracts
 @import "abstracts/variables";
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
-
 // Base
+@import 'base/base';
 @import 'base/auth';
 
 // Components
@@ -16,8 +16,13 @@
 // Layouts
 
 // Pages
+@import 'pages/me/avatar';
 
 // Themes
 
-// Vendors
+// Vue Components
+@import 'vue-components/book-tile';
 
+// Vendors
+@import 'vendors/fontawesome/fontawesome.scss';
+@import 'vendors/fontawesome/fa-light.scss';
