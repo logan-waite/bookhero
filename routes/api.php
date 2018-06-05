@@ -28,5 +28,6 @@ Route::group([
     Route::post('/v1/refresh', 'Api\AuthController@refresh');
     Route::post('/v1/register', 'Api\AuthController@register');
     Route::get('/v1/user', 'Api\UserController@getUser');
-
+    // Books
+    Route::get('/v1/books/all', 'Api\BookController@getAll');
 });

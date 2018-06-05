@@ -5,11 +5,18 @@
     </div>
     <div class='info'>
       <p class='title'>
-        Book Title
+        {{ book.title }}
       </p>
       <p class='author'>
-        Author McAuthorson
+        {{ book.author.name }}
       </p>
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    props: [ 'book' ],
+
+  }
+</script>

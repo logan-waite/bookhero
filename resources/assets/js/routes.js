@@ -34,8 +34,8 @@ const router =  new VueRouter({
     },
     {
       path: "/",
-      name: "home",
-      component: Vue.component( "home", require( './pages/home.vue' ) ),
+      name: "desktop",
+      component: Vue.component( "desktop", require( './pages/layouts/desktop.vue' ) ),
       meta: { requiresAuth: true },
     }
   ]

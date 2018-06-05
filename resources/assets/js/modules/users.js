@@ -1,4 +1,4 @@
-import UserAPI from '../api/users.js';
+import UserApi from '../api/users.js';
 
 export const users = {
   state: {
@@ -7,7 +7,7 @@ export const users = {
   actions: {
     getUserInfo: function({ commit }) {
       return new Promise(( resolve, reject ) => {
-        UserAPI.getUser()
+        UserApi.getUser()
           .then( function( response ) {
             var user;
             if( _.isEmpty(response.data) ) {

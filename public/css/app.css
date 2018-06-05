@@ -10390,7 +10390,7 @@ a.text-dark:focus {
 
 body,
 html {
-  background-color: floralwhite;
+  background-color: #FFFCF7;
 }
 
 .auth .wrapper {
@@ -10472,6 +10472,7 @@ html {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  margin: 5px;
 }
 
 .book-tile .cover {
