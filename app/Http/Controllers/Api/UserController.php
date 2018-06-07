@@ -14,6 +14,10 @@ class UserController extends Controller
    */
   public function getUser()
   {
-      return response()->json(auth()->user());
+    return response()->json(auth()->user());
+  }
+
+  public function getBookList() {
+    return true;
   }
 }

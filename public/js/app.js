@@ -50733,10 +50733,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['book']
-
 });
 
 /***/ }),
@@ -50758,6 +50763,36 @@ var render = function() {
       _c("p", { staticClass: "author" }, [
         _vm._v("\n      " + _vm._s(_vm.book.author.name) + "\n    ")
       ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "actions" }, [
+      _c("i", { staticClass: "far fa-book" }),
+      _vm._v(" "),
+      _c("i", { staticClass: "far fa-book-open" }),
+      _vm._v(" "),
+      _c("i", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: !_vm.book.active,
+            expression: "! book.active"
+          }
+        ],
+        staticClass: "far fa-plus"
+      }),
+      _vm._v(" "),
+      _c("i", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.book.active,
+            expression: "book.active"
+          }
+        ],
+        staticClass: "far fa-times"
+      })
     ])
   ])
 }
@@ -50868,7 +50903,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -50897,13 +50931,9 @@ var render = function() {
   return _c(
     "div",
     { attrs: { id: "discover" } },
-    [
-      _vm._v("\n  This is the discover section\n  "),
-      _vm._l(_vm.books, function(book) {
-        return _c("book-tile", { key: book.id, attrs: { book: book } })
-      })
-    ],
-    2
+    _vm._l(_vm.books, function(book) {
+      return _c("book-tile", { key: book.id, attrs: { book: book } })
+    })
   )
 }
 var staticRenderFns = []

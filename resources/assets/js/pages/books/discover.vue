@@ -1,6 +1,5 @@
 <template>
   <div id='discover'>
-    This is the discover section
     <book-tile
       v-for="book in books"
       :book="book"
@@ -16,7 +15,7 @@
       BookTile,
     },
     computed: {
-      books() {
+      books() {        
         return this.$store.state.books.books;
       }
     },

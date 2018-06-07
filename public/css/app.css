@@ -10473,11 +10473,12 @@ html {
   display: -ms-flexbox;
   display: flex;
   margin: 5px;
+  width: 100%;
 }
 
 .book-tile .cover {
   border: 1px solid blue;
-  width: 55px;
+  min-width: 55px;
   margin-right: 10px;
 }
 
@@ -10488,6 +10489,41 @@ html {
 
 .book-tile .info .author {
   margin: 0px;
+}
+
+.book-tile .actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 5px 0px;
+  margin-left: auto;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.book-tile .actions i.far {
+  border: 1px solid black;
+  padding: 2px;
+  width: 30px;
+  height: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0px 0px 5px;
 }
 
 /*!
@@ -15712,5 +15748,23 @@ readers do not read off random characters that represent icons */
 .fal {
   font-family: 'Font Awesome 5 Pro';
   font-weight: 300;
+}
+
+/*!
+ * Font Awesome Pro 5.0.13 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license (Commercial License)
+ */
+
+@font-face {
+  font-family: 'Font Awesome 5 Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/fonts/fa-regular-400.eot?bee8fd18c652dca1ad2b76ede4a73088);
+  src: url(/fonts/fa-regular-400.eot?bee8fd18c652dca1ad2b76ede4a73088) format("embedded-opentype"), url(/fonts/fa-regular-400.woff2?79964b60ba3b6d5bd2d3486bfc7b3f46) format("woff2"), url(/fonts/fa-regular-400.woff?069eca1bf31ce69acf105557f3ff8ee1) format("woff"), url(/fonts/fa-regular-400.ttf?264d0da793817800809d0819d96b47a4) format("truetype"), url(/fonts/fa-regular-400.svg?dd047090f2406c95881c2568dc296bec) format("svg");
+}
+
+.far {
+  font-family: 'Font Awesome 5 Pro';
+  font-weight: 400;
 }
 

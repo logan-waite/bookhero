@@ -4,10 +4,11 @@
   padding: 10px;
   display: flex;
   margin: 5px;
+  width: 100%;
 
   .cover {
     border: 1px solid blue;
-    width: 55px;
+    min-width: 55px;
     margin-right: 10px;
   }
 
@@ -19,6 +20,26 @@
 
     .author {
       margin: 0px;
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0px;
+    margin-left: auto;
+    justify-content: space-between;
+    align-items: center;
+
+    i.far {
+      border: 1px solid black;
+      padding: 2px;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0px 0px 5px;
     }
   }
 }
