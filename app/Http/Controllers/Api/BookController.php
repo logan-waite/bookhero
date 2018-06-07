@@ -48,4 +48,13 @@ class BookController extends Controller
 
       return Response::create([ 'message' => 'success' ]);
     }
+
+    public function getBookList() {
+      $user_id = auth()->user()->id;
+      $book_list = BookList::with('book')
+                    ->where('user_id', $user_id)
+                    ->get();
+
+      return Response::create([ 'message' => 'success', 'booklist' => $book_list ]);
+    }
 }
