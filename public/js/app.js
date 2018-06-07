@@ -50702,12 +50702,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     BookTile: __WEBPACK_IMPORTED_MODULE_0__components_BookTile_vue___default.a
+  },
+  computed: {
+    bookList: function bookList() {
+      return this.$store.state.books.bookList;
+    }
+  },
+  created: function created() {
+    // this.$store.dispatch( 'getBookList' );
   }
 });
 
@@ -50766,17 +50777,37 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "actions" }, [
-      _c("i", { staticClass: "far fa-book" }),
-      _vm._v(" "),
-      _c("i", { staticClass: "far fa-book-open" }),
+      _c("i", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.book.currently_reading,
+            expression: "book.currently_reading"
+          }
+        ],
+        staticClass: "far fa-book"
+      }),
       _vm._v(" "),
       _c("i", {
         directives: [
           {
             name: "show",
             rawName: "v-show",
-            value: !_vm.book.active,
-            expression: "! book.active"
+            value: !_vm.book.currently_reading,
+            expression: "! book.currently_reading"
+          }
+        ],
+        staticClass: "far fa-book-open"
+      }),
+      _vm._v(" "),
+      _c("i", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.book.user_id === null,
+            expression: "book.user_id === null"
           }
         ],
         staticClass: "far fa-plus"
@@ -50787,8 +50818,8 @@ var render = function() {
           {
             name: "show",
             rawName: "v-show",
-            value: _vm.book.active,
-            expression: "book.active"
+            value: _vm.book.user_id !== null,
+            expression: "book.user_id !== null"
           }
         ],
         staticClass: "far fa-times"
@@ -50814,22 +50845,25 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { attrs: { id: "book-list" } }, [
+    _c("div", { staticClass: "currently-reading" }, [
+      _vm._v("\n    Currently Reading\n    ")
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "upcoming" },
+      [
+        _vm._v("\n    Up Next\n    "),
+        _vm._l(_vm.bookList, function(book) {
+          return _c("book-tile", { key: book.id, attrs: { book: book } })
+        })
+      ],
+      2
+    )
+  ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "book-list" } }, [
-      _c("div", { staticClass: "currently-reading" }, [
-        _vm._v("\n    Currently Reading\n    ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "upcoming" }, [_vm._v("\n    Up Next\n    ")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -50903,6 +50937,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -50932,7 +50967,9 @@ var render = function() {
     "div",
     { attrs: { id: "discover" } },
     _vm._l(_vm.books, function(book) {
-      return _c("book-tile", { key: book.id, attrs: { book: book } })
+      return book.user_id === null
+        ? _c("book-tile", { key: book.book_id, attrs: { book: book } })
+        : _vm._e()
     })
   )
 }
@@ -53439,23 +53476,49 @@ var users = {
 var books = {
   state: {
     books: [],
-    booksLoadingStatus: 0
+    bookList: [],
+    booksLoadingStatus: 0,
+    bookListLoadingStatus: 0
   },
   actions: {
     getAllBooks: function getAllBooks(_ref) {
-      var commit = _ref.commit;
+      var commit = _ref.commit,
+          rootState = _ref.rootState;
 
       commit('setBooksLoadingStatus', 1);
 
       return new Promise(function (resolve, reject) {
         __WEBPACK_IMPORTED_MODULE_0__api_books_js__["a" /* default */].getAllBooks().then(function (response) {
-          console.log(response.data.books);
           commit('setBooks', response.data.books);
           commit('setBooksLoadingStatus', 2);
+          // get all the user's books
+          var bookList = response.data.books.filter(function (b) {
+            return b.user_id === rootState.users.user.id;
+          });
+          commit('setBookList', bookList);
         }).catch(function (error) {
           console.log(error);
           commit('setBooks', []);
           commit('setBooksLoadingStatus', 3);
+          commit('setBookList', []);
+          reject();
+        });
+      });
+    },
+    getBookList: function getBookList(_ref2) {
+      var commit = _ref2.commit;
+
+      commit('setBookListLoadingStatus', 1);
+
+      return new Promise(function (resolve, reject) {
+        __WEBPACK_IMPORTED_MODULE_0__api_books_js__["a" /* default */].getBookList().then(function (response) {
+          commit('setBookList', response.data.booklist);
+          commit('setBookListLoadingStatus', 2);
+          resolve();
+        }).catch(function (error) {
+          console.log(error);
+          commit('setBookList', []);
+          commit('setBookListLoadingStatus', 3);
           reject();
         });
       });
@@ -53465,8 +53528,14 @@ var books = {
     setBooksLoadingStatus: function setBooksLoadingStatus(state, status) {
       state.booksLoadingStatus = status;
     },
+    setBookListLoadingStatus: function setBookListLoadingStatus(state, status) {
+      state.bookListLoadingStatus = status;
+    },
     setBooks: function setBooks(state, books) {
       state.books = books;
+    },
+    setBookList: function setBookList(state, list) {
+      state.bookList = list;
     }
   },
   getters: {}
@@ -53487,6 +53556,16 @@ var api_url = __WEBPACK_IMPORTED_MODULE_0__config_js__["a" /* API_URL */] + '/bo
     var url = api_url + '/all';
 
     return axios.get(url);
+  },
+  getBookList: function getBookList() {
+    var url = api_url + '/list';
+
+    return axios.get(url);
+  },
+  addBookToList: function addBookToList(book_id) {
+    var url = api_url + '/list/add';
+
+    return axios.put(url, { book_id: book_id });
   }
 });
 

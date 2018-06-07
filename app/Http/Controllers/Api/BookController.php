@@ -13,12 +13,14 @@ use Illuminate\Support\Facades\Log;
 class BookController extends Controller
 {
     public function getAll() {
-      $books = Book::with('author')->get();
-      $counter = 0;
-      foreach ( $books as $book ) {
-        $book->active = ( $counter % 2 == 0 ) ? true : false;
-        $counter++;
-      }
+      $user_id = auth()->user()->id;
+
+      $books = Book::with('author')
+                      ->leftJoin('book_lists', 'books.id', '=', 'book_lists.book_id')
+                      ->where('user_id', $user_id)
+                      ->orWhere('user_id', null)
+                      ->get();
+
       return Response::create([ 'message' => 'success', 'books' => $books ]);
     }
 
@@ -51,8 +53,9 @@ class BookController extends Controller
 
     public function getBookList() {
       $user_id = auth()->user()->id;
-      $book_list = BookList::with('book')
-                    ->where('user_id', $user_id)
+      $book_list = Book::with('author')
+                    ->join('book_lists', 'books.id', '=', 'book_lists.book_id')
+                    ->where('book_lists.user_id', $user_id)
                     ->get();
 
       return Response::create([ 'message' => 'success', 'booklist' => $book_list ]);

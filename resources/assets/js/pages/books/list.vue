@@ -6,7 +6,10 @@
     </div>
     <div class='upcoming'>
       Up Next
-      <!-- <book-tile></book-tile> -->
+      <book-tile
+        v-for="book in bookList"
+        :book="book"
+        :key="book.id"></book-tile>
     </div>
   </div>
 </template>
@@ -17,6 +20,14 @@
   export default {
     components: {
       BookTile,
+    },
+    computed: {
+      bookList() {
+        return this.$store.state.books.bookList;
+      }
+    },
+    created() {
+      // this.$store.dispatch( 'getBookList' );
     }
   }
 </script>

@@ -12,10 +12,10 @@
       </p>
     </div>
     <div class='actions'>
-      <i class='far fa-book'></i>
-      <i class='far fa-book-open'></i>
-      <i v-show="! book.active" class='far fa-plus'></i>
-      <i v-show="book.active" class='far fa-times'></i>
+      <i v-show="book.currently_reading"class='far fa-book'></i>
+      <i v-show="! book.currently_reading" class='far fa-book-open'></i>
+      <i v-show="book.user_id === null" class='far fa-plus'></i>
+      <i v-show="book.user_id !== null" class='far fa-times'></i>
     </div>
   </div>
 </template>
