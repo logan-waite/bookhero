@@ -4,7 +4,7 @@
       v-for="book in books"
       v-if="book.user_id === null"
       :book="book"
-      :key="book.book_id"></book-tile>
+      :key="book.id"></book-tile>
   </div>
 </template>
 

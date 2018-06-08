@@ -14,7 +14,7 @@
     <div class='actions'>
       <i v-show="book.currently_reading"class='far fa-book'></i>
       <i v-show="! book.currently_reading" class='far fa-book-open'></i>
-      <i v-show="book.user_id === null" class='far fa-plus'></i>
+      <i v-show="book.user_id === null" class='far fa-plus' @click="addBookToList()"></i>
       <i v-show="book.user_id !== null" class='far fa-times'></i>
     </div>
   </div>
@@ -23,5 +23,13 @@
 <script>
   export default {
     props: [ 'book' ],
+    methods: {
+      addBookToList() {
+        this.$store.dispatch( 'addBookToList', this.book.id );
+      },
+      setCurrentlyReading() {
+        
+      }
+    }
   }
 </script>

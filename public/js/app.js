@@ -50714,7 +50714,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     bookList: function bookList() {
-      return this.$store.state.books.bookList;
+      return this.$store.state.books.books.filter(function (b) {
+        return b.user_id !== null;
+      });
     }
   },
   created: function created() {
@@ -50752,7 +50754,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['book']
+  props: ['book'],
+  methods: {
+    addBookToList: function addBookToList() {
+      this.$store.dispatch('addBookToList', this.book.id);
+    }
+  }
 });
 
 /***/ }),
@@ -50810,7 +50817,12 @@ var render = function() {
             expression: "book.user_id === null"
           }
         ],
-        staticClass: "far fa-plus"
+        staticClass: "far fa-plus",
+        on: {
+          click: function($event) {
+            _vm.addBookToList()
+          }
+        }
       }),
       _vm._v(" "),
       _c("i", {
@@ -50968,7 +50980,7 @@ var render = function() {
     { attrs: { id: "discover" } },
     _vm._l(_vm.books, function(book) {
       return book.user_id === null
-        ? _c("book-tile", { key: book.book_id, attrs: { book: book } })
+        ? _c("book-tile", { key: book.id, attrs: { book: book } })
         : _vm._e()
     })
   )
@@ -53489,13 +53501,12 @@ var books = {
 
       return new Promise(function (resolve, reject) {
         __WEBPACK_IMPORTED_MODULE_0__api_books_js__["a" /* default */].getAllBooks().then(function (response) {
+          console.log(response.data.books);
           commit('setBooks', response.data.books);
           commit('setBooksLoadingStatus', 2);
           // get all the user's books
-          var bookList = response.data.books.filter(function (b) {
-            return b.user_id === rootState.users.user.id;
-          });
-          commit('setBookList', bookList);
+          // let bookList = response.data.books.filter( b => b.user_id === rootState.users.user.id );
+          // commit( 'setBookList', bookList );
         }).catch(function (error) {
           console.log(error);
           commit('setBooks', []);
@@ -53522,6 +53533,20 @@ var books = {
           reject();
         });
       });
+    },
+    addBookToList: function addBookToList(_ref3, book_id) {
+      var commit = _ref3.commit,
+          rootState = _ref3.rootState;
+
+      return new Promise(function (resolve, reject) {
+        __WEBPACK_IMPORTED_MODULE_0__api_books_js__["a" /* default */].addBookToList(book_id).then(function (response) {
+          commit('addBookToList', { user_id: rootState.users.user.id, book_id: book_id });
+          resolve();
+        }).catch(function (error) {
+          console.log(error);
+          reject();
+        });
+      });
     }
   },
   mutations: {
@@ -53536,6 +53561,11 @@ var books = {
     },
     setBookList: function setBookList(state, list) {
       state.bookList = list;
+    },
+    addBookToList: function addBookToList(state, info) {
+      state.books.find(function (b) {
+        return b.id === info.book_id;
+      }).user_id = info.user_id;
     }
   },
   getters: {}

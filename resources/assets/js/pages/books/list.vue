@@ -23,7 +23,7 @@
     },
     computed: {
       bookList() {
-        return this.$store.state.books.bookList;
+        return this.$store.state.books.books.filter( b => b.user_id !== null );
       }
     },
     created() {

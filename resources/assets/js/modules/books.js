@@ -14,11 +14,12 @@ export const books = {
       return new Promise(( resolve, reject ) => {
         BooksApi.getAllBooks()
           .then( function( response ) {
+            console.log(response.data.books)
             commit( 'setBooks', response.data.books );
             commit( 'setBooksLoadingStatus', 2 );
             // get all the user's books
-            let bookList = response.data.books.filter( b => b.user_id === rootState.users.user.id );
-            commit( 'setBookList', bookList );
+            // let bookList = response.data.books.filter( b => b.user_id === rootState.users.user.id );
+            // commit( 'setBookList', bookList );
 
           })
           .catch( function( error ) {
@@ -48,6 +49,19 @@ export const books = {
           });
       });
     },
+    addBookToList({ commit, rootState }, book_id) {
+      return new Promise(( resolve, reject ) => {
+        BooksApi.addBookToList(book_id)
+          .then( function( response ) {
+            commit('addBookToList', { user_id: rootState.users.user.id, book_id });
+            resolve();
+          })
+          .catch( function( error ) {
+            console.log( error );
+            reject();
+          });
+      })
+    }
    },
   mutations: {
     setBooksLoadingStatus( state, status ) {
@@ -61,6 +75,9 @@ export const books = {
     },
     setBookList( state, list ) {
       state.bookList = list;
+    },
+    addBookToList( state, info ) {
+      state.books.find( b => b.id === info.book_id).user_id = info.user_id;
     }
   },
   getters: {
