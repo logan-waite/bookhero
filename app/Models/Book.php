@@ -13,4 +13,8 @@ class Book extends Model
     public function lists() {
       return $this->hasMany( BookList::class, 'book_id' );
     }
+
+    public function attributes() {
+      return $this->hasMany( BookAttribute::class );
+    }
 }
