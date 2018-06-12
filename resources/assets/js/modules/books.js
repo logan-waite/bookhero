@@ -61,6 +61,36 @@ export const books = {
             reject();
           });
       })
+    },
+    updateBookList({ commit, rootState }, info) {
+      let book_id = info.book_id;
+      let type = info.type;
+      let action = info.action;
+
+      return new Promise(( resolve, reject ) => {
+        BooksApi.updateBookList(type, action, book_id)
+          .then( function( response ) {
+            console.log(response);
+            switch ( type ) {
+              case "add":
+                commit('addBookToList', { user_id: rootState.users.user.id, book_id });
+                break;
+              case "remove":
+                commit('removeBookFromList', { user_id: rootState.users.user.id, book_id });
+                break;
+              case "currently_reading":
+                if ( action === true ) {
+                  commit('addBookToList', { user_id: rootState.users.user.id, book_id });
+                }
+                commit('setReadingStatus', { book_id, action });
+                break;
+              case "finished":
+                commit('setFinishedStatus', { book_id, action });
+                break;
+            }
+
+          })
+      })
     }
    },
   mutations: {
@@ -78,10 +108,31 @@ export const books = {
     },
     addBookToList( state, info ) {
       state.books.find( b => b.id === info.book_id).user_id = info.user_id;
+    },
+    removeBookFromList( state, info ) {
+      let book = state.books.find( b => b.id === info.book_id);
+      book.user_id = null;
+      book.currently_reading = false;
+    },
+    setReadingStatus( state, info ) {
+      let book = state.books.find( b => b.user_id !== null && b.currently_reading == true);
+      if ( book !== undefined && info.action === true ) {
+        book.currently_reading = false;
+      }
+      state.books.find( b => b.id === info.book_id).currently_reading = info.action;
+    },
+    setFinishedStatus( state, info ) {
+
+      state.books.find( b => b.id === info.book_id).finished = info.action;
     }
   },
   getters: {
-
+    bookList( state ) {
+      return state.books.filter( b => b.user_id !== null && b.currently_reading == false);
+    },
+    currentlyReading( state ) {
+      return state.books.find( b => b.user_id !== null && b.currently_reading == true);
+    }
   }
 }
 

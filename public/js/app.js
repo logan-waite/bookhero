@@ -50705,6 +50705,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -50713,13 +50716,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     BookTile: __WEBPACK_IMPORTED_MODULE_0__components_BookTile_vue___default.a
   },
   computed: {
+    currently_reading: function currently_reading() {
+      // console.log(this.$store.getters.currentlyReading)
+      // return this.$store.state.books.books.find( function(b) {
+      //   console.log(b.user_id !== null && b.currently_reading == true)
+      //   return (b.user_id !== null && b.currently_reading == true);
+      // });
+      return this.$store.getters.currentlyReading;
+    },
     bookList: function bookList() {
+      // return this.$store.getters.bookList;
       return this.$store.state.books.books.filter(function (b) {
         return b.user_id !== null;
       });
     }
   },
   created: function created() {
+    console.log(this.currently);
     // this.$store.dispatch( 'getBookList' );
   }
 });
@@ -50752,13 +50765,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['book'],
   methods: {
     addBookToList: function addBookToList() {
-      this.$store.dispatch('addBookToList', this.book.id);
-    }
+      this.$store.dispatch('updateBookList', { type: "add", book_id: this.book.id, action: null });
+    },
+    removeBookFromList: function removeBookFromList() {
+      this.$store.dispatch('updateBookList', { type: "remove", book_id: this.book.id, action: null });
+    },
+    setCurrentlyReading: function setCurrentlyReading(action) {
+      if (action) {
+        if (this.$store.getters.currentlyReading) {
+          var replace = confirm("You are already reading a book! Do you want to replace your current book?");
+          if (!replace) {
+            return false;
+          }
+        }
+      }
+      this.$store.dispatch('updateBookList', { type: "currently_reading", book_id: this.book.id, action: action });
+    },
+    finishBook: function finishBook() {}
   }
 });
 
@@ -50789,11 +50818,16 @@ var render = function() {
           {
             name: "show",
             rawName: "v-show",
-            value: _vm.book.currently_reading,
-            expression: "book.currently_reading"
+            value: !_vm.book.currently_reading,
+            expression: "! book.currently_reading"
           }
         ],
-        staticClass: "far fa-book"
+        staticClass: "far fa-book",
+        on: {
+          click: function($event) {
+            _vm.setCurrentlyReading(true)
+          }
+        }
       }),
       _vm._v(" "),
       _c("i", {
@@ -50801,11 +50835,16 @@ var render = function() {
           {
             name: "show",
             rawName: "v-show",
-            value: !_vm.book.currently_reading,
-            expression: "! book.currently_reading"
+            value: _vm.book.currently_reading,
+            expression: "book.currently_reading"
           }
         ],
-        staticClass: "far fa-book-open"
+        staticClass: "far fa-book-open",
+        on: {
+          click: function($event) {
+            _vm.finishBook()
+          }
+        }
       }),
       _vm._v(" "),
       _c("i", {
@@ -50830,11 +50869,33 @@ var render = function() {
           {
             name: "show",
             rawName: "v-show",
-            value: _vm.book.user_id !== null,
-            expression: "book.user_id !== null"
+            value: _vm.book.user_id !== null && !_vm.book.currently_reading,
+            expression: "book.user_id !== null && ! book.currently_reading"
           }
         ],
-        staticClass: "far fa-times"
+        staticClass: "far fa-times",
+        on: {
+          click: function($event) {
+            _vm.removeBookFromList()
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("i", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.book.currently_reading,
+            expression: "book.currently_reading"
+          }
+        ],
+        staticClass: "far fa-minus",
+        on: {
+          click: function($event) {
+            _vm.setCurrentlyReading(false)
+          }
+        }
       })
     ])
   ])
@@ -50858,9 +50919,17 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "book-list" } }, [
-    _c("div", { staticClass: "currently-reading" }, [
-      _vm._v("\n    Currently Reading\n    ")
-    ]),
+    _c(
+      "div",
+      { staticClass: "currently-reading" },
+      [
+        _vm._v("\n    Currently Reading\n    "),
+        _vm.currently_reading
+          ? _c("book-tile", { attrs: { book: _vm.currently_reading } })
+          : _vm._e()
+      ],
+      1
+    ),
     _vm._v(" "),
     _c(
       "div",
@@ -50868,7 +50937,9 @@ var render = function() {
       [
         _vm._v("\n    Up Next\n    "),
         _vm._l(_vm.bookList, function(book) {
-          return _c("book-tile", { key: book.id, attrs: { book: book } })
+          return !book.currently_reading
+            ? _c("book-tile", { key: book.id, attrs: { book: book } })
+            : _vm._e()
         })
       ],
       2
@@ -53547,6 +53618,37 @@ var books = {
           reject();
         });
       });
+    },
+    updateBookList: function updateBookList(_ref4, info) {
+      var commit = _ref4.commit,
+          rootState = _ref4.rootState;
+
+      var book_id = info.book_id;
+      var type = info.type;
+      var action = info.action;
+
+      return new Promise(function (resolve, reject) {
+        __WEBPACK_IMPORTED_MODULE_0__api_books_js__["a" /* default */].updateBookList(type, action, book_id).then(function (response) {
+          console.log(response);
+          switch (type) {
+            case "add":
+              commit('addBookToList', { user_id: rootState.users.user.id, book_id: book_id });
+              break;
+            case "remove":
+              commit('removeBookFromList', { user_id: rootState.users.user.id, book_id: book_id });
+              break;
+            case "currently_reading":
+              if (action === true) {
+                commit('addBookToList', { user_id: rootState.users.user.id, book_id: book_id });
+              }
+              commit('setReadingStatus', { book_id: book_id, action: action });
+              break;
+            case "finished":
+              commit('setFinishedStatus', { book_id: book_id, action: action });
+              break;
+          }
+        });
+      });
     }
   },
   mutations: {
@@ -53566,9 +53668,44 @@ var books = {
       state.books.find(function (b) {
         return b.id === info.book_id;
       }).user_id = info.user_id;
+    },
+    removeBookFromList: function removeBookFromList(state, info) {
+      var book = state.books.find(function (b) {
+        return b.id === info.book_id;
+      });
+      book.user_id = null;
+      book.currently_reading = false;
+    },
+    setReadingStatus: function setReadingStatus(state, info) {
+      var book = state.books.find(function (b) {
+        return b.user_id !== null && b.currently_reading == true;
+      });
+      if (book !== undefined && info.action === true) {
+        book.currently_reading = false;
+      }
+      state.books.find(function (b) {
+        return b.id === info.book_id;
+      }).currently_reading = info.action;
+    },
+    setFinishedStatus: function setFinishedStatus(state, info) {
+
+      state.books.find(function (b) {
+        return b.id === info.book_id;
+      }).finished = info.action;
     }
   },
-  getters: {}
+  getters: {
+    bookList: function bookList(state) {
+      return state.books.filter(function (b) {
+        return b.user_id !== null && b.currently_reading == false;
+      });
+    },
+    currentlyReading: function currentlyReading(state) {
+      return state.books.find(function (b) {
+        return b.user_id !== null && b.currently_reading == true;
+      });
+    }
+  }
 };
 
 /***/ }),
@@ -53596,6 +53733,17 @@ var api_url = __WEBPACK_IMPORTED_MODULE_0__config_js__["a" /* API_URL */] + '/bo
     var url = api_url + '/list/add';
 
     return axios.put(url, { book_id: book_id });
+  },
+  updateBookList: function updateBookList(type, action, book_id) {
+    var url = api_url + '/list/update';
+
+    var data = {
+      type: type,
+      action: action,
+      book_id: book_id
+    };
+
+    return axios.put(url, data);
   }
 });
 

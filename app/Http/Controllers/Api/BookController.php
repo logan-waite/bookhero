@@ -86,6 +86,7 @@ class BookController extends Controller
           $list_record = new BookList;
           $list_record->user_id = auth()->user()->id;
           $list_record->book_id = $book_id;
+          // $list_record->save();
 
           try {
             $list_record->save();
@@ -103,17 +104,34 @@ class BookController extends Controller
           return Response::create([ 'message' => $e->getMessage() ], 500);
         }          break;
         case 'currently_reading':
-          if ( $input['action'] == true ) {
-            $existing_list_record->currently_reading = 1;
-          } else if ( $input['action'] == false ) {
-            $existing_list_record->currently_reading = 0;
-          }
+          if (! $existing_list_record ) {
+            $list_record = new BookList;
+            $list_record->user_id = auth()->user()->id;
+            $list_record->book_id = $book_id;
+            $list_record->currently_reading = $input['action'];
 
-          try {
+            try {
+              $list_record->save();
+            }
+            catch(\Throwable $e) {
+              return Response::create([ 'message' => $e->getMessage() ], 500);
+            }
+          } else {
+            if ( $input['action'] == true ) {
+              $currently_reading = BookList::where('user_id', $user_id)
+                                        ->where('currently_reading', true)
+                                        ->first();
+
+              if( $currently_reading ) {
+                $currently_reading->currently_reading = false;
+              }
+
+              $existing_list_record->currently_reading = true;
+
+            } else if ( $input['action'] == false ) {
+              $existing_list_record->currently_reading = $input['action'];
+            }
             $existing_list_record->save();
-          }
-          catch(\Throwable $e) {
-            return Response::create([ 'message' => $e->getMessage() ], 500);
           }
           break;
         case 'finished':

@@ -17,5 +17,16 @@ export default {
     var url = api_url + '/list/add';
 
     return axios.put( url, { book_id } );
+  },
+  updateBookList : function( type, action, book_id ) {
+    var url = api_url + '/list/update';
+
+    let data = {
+      type,
+      action,
+      book_id,
+    }
+
+    return axios.put( url, data );
   }
 }
