@@ -25,7 +25,7 @@ class CreateAttributesTable extends Migration
         $table->insert(array(
           'id' => 1,
           'name' => 'Wisdom',
-          'description' => 'Applying the experience of others to your own situation',
+          'description' => 'Applying experiences (yours or others) to any situation',
           'created_at' => Carbon::now(),
           'updated_at' => Carbon::now()
         ));
@@ -40,6 +40,13 @@ class CreateAttributesTable extends Migration
           'id' => 3,
           'name' => 'Creativity',
           'description' => 'Finding unique situations to the problems you face',
+          'created_at' => Carbon::now(),
+          'updated_at' => Carbon::now()
+        ));
+        $table->insert(array(
+          'id' => 4,
+          'name' => 'Empathy',
+          'description' => 'Feeling connected to and understanding of the people around you',
           'created_at' => Carbon::now(),
           'updated_at' => Carbon::now()
         ));

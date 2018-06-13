@@ -16,7 +16,7 @@ class BookController extends Controller
     public function getAll() {
       $user_id = auth()->user()->id;
 
-      $books = Book::with('author')
+      $books = Book::with(['author', 'attributes'])
                       ->select('books.*',
                                 'book_lists.book_id',
                                 'book_lists.user_id',

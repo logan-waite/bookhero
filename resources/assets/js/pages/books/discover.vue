@@ -22,6 +22,7 @@
     },
     created() {
       this.$store.dispatch( 'getAllBooks' );
+      this.$store.dispatch( 'getAllAttributes' );
     }
   }
 </script>

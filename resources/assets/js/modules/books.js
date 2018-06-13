@@ -14,7 +14,6 @@ export const books = {
       return new Promise(( resolve, reject ) => {
         BooksApi.getAllBooks()
           .then( function( response ) {
-            console.log(response.data.books)
             commit( 'setBooks', response.data.books );
             commit( 'setBooksLoadingStatus', 2 );
             // get all the user's books

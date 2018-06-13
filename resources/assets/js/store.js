@@ -26,6 +26,7 @@ Vue.use( Vuex );
 import { auth } from './modules/auth.js';
 import { users } from './modules/users.js';
 import { books } from './modules/books.js';
+import { attributes } from './modules/attributes.js';
 
 /*
   Exports our data store.
@@ -35,5 +36,6 @@ export default new Vuex.Store({
     auth,
     users,
     books,
+    attributes,
   }
 });

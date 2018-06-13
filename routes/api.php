@@ -33,5 +33,7 @@ Route::group([
     Route::get('/v1/books/list', 'Api\BookController@getBookList');
     // Route::put('/v1/books/list/add', 'Api\BookController@addBookToList');
     Route::put('/v1/books/list/update', 'Api\BookController@updateBookList');
+    // Attributes
+    Route::get('/v1/attributes/all', 'Api\AttributesController@getAll');
 
 });
