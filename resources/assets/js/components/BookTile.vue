@@ -43,7 +43,7 @@
         this.$store.dispatch( 'updateBookList', { type:"currently_reading", book_id: this.book.id, action } );
       },
       finishBook() {
-
+        this.$store.dispatch( 'updateBookList', { type: 'finished', book_id: this.book.id, action: true });
       }
     }
   }

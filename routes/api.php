@@ -16,17 +16,25 @@ use Illuminate\Http\Request;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+Route::group([
+
+  'middleware' => 'api',
+
+], function( $router ) {
+
+  Route::post('/v1/login', 'Api\AuthController@login');
+  Route::post('/v1/logout', 'Api\AuthController@logout');
+  Route::post('/v1/refresh', 'Api\AuthController@refresh');
+  Route::post('/v1/register', 'Api\AuthController@register');
+
+});
 
 Route::group([
 
     'middleware' => 'jwt.auth',
 
-], function ($router) {
-
-    Route::post('/v1/login', 'Api\AuthController@login');
-    Route::post('/v1/logout', 'Api\AuthController@logout');
-    Route::post('/v1/refresh', 'Api\AuthController@refresh');
-    Route::post('/v1/register', 'Api\AuthController@register');
+], function ( $router ) {
+    // User
     Route::get('/v1/user', 'Api\UserController@getUser');
     // Books
     Route::get('/v1/books/all', 'Api\BookController@getAll');

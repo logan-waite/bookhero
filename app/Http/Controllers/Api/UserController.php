@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -14,7 +16,10 @@ class UserController extends Controller
    */
   public function getUser()
   {
-    return response()->json(auth()->user());
+    $user_id = auth()->user()->id;
+    $user = User::with('attributes')->get();
+
+    return response()->json($user);
   }
 
   public function getBookList() {

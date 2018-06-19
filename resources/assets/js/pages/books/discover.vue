@@ -2,7 +2,7 @@
   <div id='discover'>
     <book-tile
       v-for="book in books"
-      v-if="book.user_id === null"
+      v-if="! book.finished && book.user_id === null"
       :book="book"
       :key="book.id"></book-tile>
   </div>
