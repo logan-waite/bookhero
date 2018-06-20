@@ -7,11 +7,7 @@
       {{ name }}
     </p>
     <ul class="attributes">
-      <li>Attribute 1</li>
-      <li>Attribute 2</li>
-      <li>Attribute 3</li>
-      <li>Attribute 4</li>
-      <li>Attribute 5</li>
+      <li v-for="attr in attributes">{{ attr.name }} - {{ attr.level }}</li>
     </ul>
   </div>
 </template>
@@ -20,7 +16,10 @@
   export default {
     computed: {
       name() {
-        return this.$store.getters.getUser.name;
+        return this.$store.state.user.name;
+      },
+      attributes() {
+        return this.$store.getters.getUserAttributes;
       }
     }
   }

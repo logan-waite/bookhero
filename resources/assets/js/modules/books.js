@@ -121,10 +121,11 @@ export const books = {
       state.books.find( b => b.id === info.book_id).currently_reading = info.action;
     },
     setFinishedStatus( state, info ) {
+      console.log("hello?");
       let book = state.books.find( b => b.id === info.book_id);
       book.finished = info.action;
       if ( info.action === true ) {
-        book.currently_reading = false;        
+        book.currently_reading = false;
       }
     }
   },

@@ -50787,7 +50787,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
       this.$store.dispatch('updateBookList', { type: "currently_reading", book_id: this.book.id, action: action });
     },
-    finishBook: function finishBook() {}
+    finishBook: function finishBook() {
+      this.$store.dispatch('updateBookList', { type: 'finished', book_id: this.book.id, action: true });
+    }
   }
 });
 
@@ -51051,7 +51053,7 @@ var render = function() {
     "div",
     { attrs: { id: "discover" } },
     _vm._l(_vm.books, function(book) {
-      return book.user_id === null
+      return !book.finished && book.user_id === null
         ? _c("book-tile", { key: book.id, attrs: { book: book } })
         : _vm._e()
     })
@@ -51134,15 +51136,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: {
     name: function name() {
-      return this.$store.getters.getUser.name;
+      return this.$store.state.user.name;
+    },
+    attributes: function attributes() {
+      return this.$store.getters.getUserAttributes;
     }
   }
 });
@@ -51162,27 +51163,18 @@ var render = function() {
       _vm._v("\n    " + _vm._s(_vm.name) + "\n  ")
     ]),
     _vm._v(" "),
-    _vm._m(0)
+    _c(
+      "ul",
+      { staticClass: "attributes" },
+      _vm._l(_vm.attributes, function(attr) {
+        return _c("li", [
+          _vm._v(_vm._s(attr.name) + " - " + _vm._s(attr.level))
+        ])
+      })
+    )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "attributes" }, [
-      _c("li", [_vm._v("Attribute 1")]),
-      _vm._v(" "),
-      _c("li", [_vm._v("Attribute 2")]),
-      _vm._v(" "),
-      _c("li", [_vm._v("Attribute 3")]),
-      _vm._v(" "),
-      _c("li", [_vm._v("Attribute 4")]),
-      _vm._v(" "),
-      _c("li", [_vm._v("Attribute 5")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -51236,7 +51228,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(67);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_auth_js__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_users_js__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_user_js__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_books_js__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_attributes_js__ = __webpack_require__(74);
 /*
@@ -51275,7 +51267,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
   modules: {
     auth: __WEBPACK_IMPORTED_MODULE_2__modules_auth_js__["a" /* auth */],
-    users: __WEBPACK_IMPORTED_MODULE_3__modules_users_js__["a" /* users */],
+    user: __WEBPACK_IMPORTED_MODULE_3__modules_user_js__["a" /* user */],
     books: __WEBPACK_IMPORTED_MODULE_4__modules_books_js__["a" /* books */],
     attributes: __WEBPACK_IMPORTED_MODULE_5__modules_attributes_js__["a" /* attributes */]
   }
@@ -53490,13 +53482,16 @@ var auth = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return users; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return user; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_users_js__ = __webpack_require__(71);
 
 
-var users = {
+var user = {
   state: {
-    user: null
+    id: null,
+    name: '',
+    email: '',
+    attributes: []
   },
   actions: {
     getUserInfo: function getUserInfo(_ref) {
@@ -53508,10 +53503,12 @@ var users = {
           if (_.isEmpty(response.data)) {
             user = {};
           } else {
+            // console.log(response.data);
             user = {
               'id': response.data.id,
               'name': response.data.name,
-              'email': response.data.email
+              'email': response.data.email,
+              'attributes': response.data.attributes
             };
           }
           commit('setUserInfo', user);
@@ -53525,12 +53522,39 @@ var users = {
   },
   mutations: {
     setUserInfo: function setUserInfo(state, user) {
-      state.user = user;
+      state.id = user.id;
+      state.name = user.name;
+      state.email = user.email;
+      state.attributes = user.attributes;
     }
   },
   getters: {
-    getUser: function getUser(state) {
-      return state.user;
+    getUserAttributes: function getUserAttributes(state, getters, rootState) {
+      var all_attrs = rootState.attributes.attributes;
+      if (all_attrs.length > 0) {
+        var attributes = [];
+
+        var _loop = function _loop() {
+          var attr = state.attributes[a];
+
+          var attr_info = all_attrs.find(function (x) {
+            return x.id === attr.id;
+          });
+          // console.log(attr_info);
+          attributes.push({
+            name: attr_info.name,
+            level: attr.level,
+            xp: attr.experience
+          });
+        };
+
+        for (var a in state.attributes) {
+          _loop();
+        }
+
+        return attributes;
+      }
+      return false;
     }
   }
 };
@@ -53691,10 +53715,14 @@ var books = {
       }).currently_reading = info.action;
     },
     setFinishedStatus: function setFinishedStatus(state, info) {
-
-      state.books.find(function (b) {
+      console.log("hello?");
+      var book = state.books.find(function (b) {
         return b.id === info.book_id;
-      }).finished = info.action;
+      });
+      book.finished = info.action;
+      if (info.action === true) {
+        book.currently_reading = false;
+      }
     }
   },
   getters: {
