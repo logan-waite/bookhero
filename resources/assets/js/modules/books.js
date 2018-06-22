@@ -121,7 +121,6 @@ export const books = {
       state.books.find( b => b.id === info.book_id).currently_reading = info.action;
     },
     setFinishedStatus( state, info ) {
-      console.log("hello?");
       let book = state.books.find( b => b.id === info.book_id);
       book.finished = info.action;
       if ( info.action === true ) {
@@ -131,7 +130,11 @@ export const books = {
   },
   getters: {
     bookList( state ) {
-      return state.books.filter( b => b.user_id !== null && b.currently_reading == false);
+      return state.books.filter( function(b) {
+        return ( b.user_id !== null &&
+                 ! b.currently_reading &&
+                 ! b.finished );
+      })
     },
     currentlyReading( state ) {
       return state.books.find( b => b.user_id !== null && b.currently_reading == true);

@@ -34,8 +34,8 @@
         return this.$store.getters.currentlyReading;
       },
       bookList() {
-        // return this.$store.getters.bookList;
-        return this.$store.state.books.books.filter( b => b.user_id !== null);
+        return this.$store.getters.bookList;
+        // return this.$store.state.books.books.filter( b => b.user_id !== null);
       }
     },
     created() {

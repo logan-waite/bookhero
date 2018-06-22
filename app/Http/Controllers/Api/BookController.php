@@ -138,13 +138,13 @@ class BookController extends Controller
         case 'finished':
           if ( $input['action'] == true ) {
             $existing_list_record->finished = 1;
+            $existing_list_record->currently_reading = 0;
             // Apply the books attributes to the user.
             // get the book's attributes
             $book = Book::with('attributes')
                           ->where('id', $book_id)
                           ->first();
             $attributes = $book->attributes;
-            Log::info($attributes);
             // check if the user has those attributes already
             $user_attributes = [];
             foreach ( $attributes as $attr ) {

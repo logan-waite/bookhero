@@ -50725,10 +50725,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return this.$store.getters.currentlyReading;
     },
     bookList: function bookList() {
-      // return this.$store.getters.bookList;
-      return this.$store.state.books.books.filter(function (b) {
-        return b.user_id !== null;
-      });
+      return this.$store.getters.bookList;
+      // return this.$store.state.books.books.filter( b => b.user_id !== null);
     }
   },
   created: function created() {
@@ -53715,7 +53713,6 @@ var books = {
       }).currently_reading = info.action;
     },
     setFinishedStatus: function setFinishedStatus(state, info) {
-      console.log("hello?");
       var book = state.books.find(function (b) {
         return b.id === info.book_id;
       });
@@ -53728,7 +53725,7 @@ var books = {
   getters: {
     bookList: function bookList(state) {
       return state.books.filter(function (b) {
-        return b.user_id !== null && b.currently_reading == false;
+        return b.user_id !== null && !b.currently_reading && !b.finished;
       });
     },
     currentlyReading: function currentlyReading(state) {
