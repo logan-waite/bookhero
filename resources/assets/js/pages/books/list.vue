@@ -39,7 +39,6 @@
       }
     },
     created() {
-      console.log(this.currently)
       // this.$store.dispatch( 'getBookList' );
     }
   }

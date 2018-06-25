@@ -7,7 +7,8 @@
         <avatar></avatar>
       </div>
       <div class='col-5 center'>
-        <discover></discover>
+        <!-- <discover></discover> -->
+        <router-view></router-view>
       </div>
       <div class='col-4 right'>
         <book-list></book-list>
@@ -19,14 +20,14 @@
 <script>
   import Navigation from '../../components/Navigation.vue'
   import BookList from '../books/list.vue';
-  import Discover from '../books/discover.vue';
+  // import Discover from '../books/discover.vue';
   import Avatar from '../me/avatar.vue';
 
   export default {
     components: {
       Navigation,
       BookList,
-      Discover,
+      // Discover,
       Avatar,
     }
   }

@@ -37,7 +37,19 @@ const router =  new VueRouter({
       name: "desktop",
       component: Vue.component( "desktop", require( './pages/layouts/desktop.vue' ) ),
       meta: { requiresAuth: true },
-    }
+      children: [
+        {
+          path: '/discover',
+          name: 'discover',
+          component: Vue.component( 'discover', require( './pages/books/discover.vue' ) ),
+        },
+        {
+          path: "/contribute",
+          name: 'contribute',
+          component: Vue.component( "contribute", require( './pages/books/contribute.vue' ) ),
+        },
+      ]
+    },
   ]
 });
 
