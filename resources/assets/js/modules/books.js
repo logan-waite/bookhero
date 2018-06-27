@@ -6,6 +6,12 @@ export const books = {
     bookList: [],
     booksLoadingStatus: 0,
     bookListLoadingStatus: 0,
+    contributeInfo: {
+      title: '',
+      author: '',
+      summary: '',
+      attributes: []
+    }
   },
   actions: {
     getAllBooks({ commit, rootState }) {

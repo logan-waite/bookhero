@@ -29,3 +29,16 @@
     </form>
   </div>
 </template>
+
+<script>
+export default {
+  data: function() {
+    return {
+      title: '',
+      author: '',
+      summary: '',
+      attributes: [],
+    }
+  }
+}
+</script>

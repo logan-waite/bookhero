@@ -52,6 +52,9 @@ if (csrf_token) {
 import Vue from 'vue';
 import router from './routes.js';
 import store from './store.js';
+
+import { EventBus } from './event-bus.js';
+
 router.beforeEach((to, from, next) => {
   if ( to.matched.some(record => record.meta.requiresAuth ) ) {
     setTimeout(function() { // Because otherwise we get redirected to login before actually getting the object
@@ -80,6 +83,13 @@ new Vue({
   router,
   store,
   created() {
+    // Set the loadCoreData event
+    EventBus.$on( 'loadCoreData', function() {
+      store.dispatch( 'getAllBooks' );
+      store.dispatch( 'getAllAttributes' );
+    });
+
+    // Make sure the user is logged in.
     if ( _.isEmpty(store.getters.getUser) ) {
       // Check local storage to see if we've saved the token
       var token = localStorage.getItem("token");
@@ -89,7 +99,7 @@ new Vue({
         // this.$store.dispatch( 'refreshLogin', { user_id, token } )
         // .then(function() {
           store.dispatch( 'getUserInfo' );
-          // EventBus.$emit( 'refreshAllData' );
+          EventBus.$emit( 'loadCoreData' );
         // });
       }
     }
