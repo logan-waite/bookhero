@@ -51288,15 +51288,47 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { attrs: { id: "contribute" } }, [
       _c("form", [
-        _c("input", { attrs: { type: "text", placeholder: "Title" } }),
+        _c("div", { staticClass: "form-row" }, [
+          _c("div", { staticClass: "form-group col" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Title" }
+            })
+          ])
+        ]),
         _vm._v(" "),
-        _c("input", { attrs: { type: "text", placeholder: "Author" } }),
+        _c("div", { staticClass: "form-row" }, [
+          _c("div", { staticClass: "form-group col" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Author" }
+            })
+          ])
+        ]),
         _vm._v(" "),
-        _c("input", { attrs: { type: "text", placeholder: "Summary" } }),
+        _c("div", { staticClass: "form-row" }, [
+          _c("div", { staticClass: "form-group col" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Summary" }
+            })
+          ])
+        ]),
         _vm._v(" "),
-        _c("select", [_c("option", [_vm._v("Attribute 1")])]),
-        _vm._v(" "),
-        _c("input", { attrs: { type: "number", value: "3" } })
+        _c("div", { staticClass: "form-row" }, [
+          _c("div", { staticClass: "form-group col-8" }, [
+            _c("select", { staticClass: "form-control" }, [
+              _c("option", [_vm._v("Attribute 1")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-4" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { type: "number", value: "3" }
+            })
+          ])
+        ])
       ])
     ])
   }
