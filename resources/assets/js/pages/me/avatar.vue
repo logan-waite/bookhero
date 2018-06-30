@@ -6,7 +6,8 @@
     <p class="name">
       {{ name }}
     </p>
-    <ul class="attributes">
+    <p v-if="attributes.length === 0"> Read some books to grow your abilities!</p>
+    <ul class="attributes" v-else>
       <li v-for="attr in attributes">{{ attr.name }} - {{ attr.level }}</li>
     </ul>
   </div>

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Author;
 use App\Models\Book;
+use App\Models\BookAttribute;
 use App\Models\BookList;
+use App\Models\Contribution;
+use App\Models\ContributionAttribute;
 use App\Models\UserAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -190,6 +194,76 @@ class BookController extends Controller
             return Response::create([ 'message' => $e->getMessage() ], 500);
           }
           break;
+      }
+
+      return Response::create([ 'message' => 'success' ]);
+    }
+
+    public function addBook() {
+      $input = Input::only( 'title', 'author', 'summary', 'attributes' );
+      Log::info($input);
+      $user_id = auth()->user()->id;
+
+      // Create new contribution for user
+      $contribution = new Contribution();
+      //TODO: Check to see if this book already exists. If it doesn't, create it
+      $book = new Book();
+      $author = Author::where('name', 'like', $input["author"])->first();
+      if ( ! $author ) {
+        $author = new Author();
+        $author->name = $input["author"];
+        try {
+          $author->save();
+        }
+        catch(\Throwable $e) {
+          return Response::create([ 'message' => $e->getMessage() ], 500);
+        }
+      }
+      $book->title = $input["title"];
+      $book->author_id = $author->id;
+      $book->summary = $input["summary"];
+
+      try {
+        $book->save();
+      }
+      catch(\Throwable $e) {
+        return Response::create([ 'message' => $e->getMessage() ], 500);
+      }
+      // This will go away when we start aggregating contributions for a book.
+      foreach( $input['attributes'] as $attr ) {
+        $book_attribute = new BookAttribute();
+        $book_attribute->book_id = $book->id;
+        $book_attribute->attribute_id = $attr["attr_id"];
+        $book_attribute->value = $attr["value"];
+        try {
+          $book_attribute->save();
+        }
+        catch(\Throwable $e) {
+          return Response::create([ 'message' => $e->getMessage() ], 500);
+        }
+      }
+      // Save Contribution
+      $contribution->user_id = $user_id;
+      $contribution->book_id = $book->id;
+      try {
+        $contribution->save();
+      }
+      catch(\Throwable $e) {
+        return Response::create([ 'message' => $e->getMessage() ], 500);
+      }
+
+      foreach( $input["attributes"] as $attr ) {
+        $contribution_attribute = new ContributionAttribute();
+        $contribution_attribute->contribution_id = $contribution->id;
+        $contribution_attribute->attribute_id = $attr["attr_id"];
+        $contribution_attribute->value = $attr["value"];
+
+        try {
+          $contribution_attribute->save();
+        }
+        catch(\Throwable $e) {
+          return Response::create([ 'message' => $e->getMessage() ], 500);
+        }
       }
 
       return Response::create([ 'message' => 'success' ]);

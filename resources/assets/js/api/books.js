@@ -28,5 +28,19 @@ export default {
     }
 
     return axios.put( url, data );
+  },
+  submitNewBook : function( book_info ) {
+    var url = api_url + '/new';
+
+    var data = {
+      title: book_info.title,
+      author: book_info.author,
+      summary: book_info.summary,
+      attributes: book_info.attributes,
+    };
+
+    console.log(data);
+
+    return axios.put( url, data );
   }
 }

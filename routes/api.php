@@ -38,6 +38,7 @@ Route::group([
     Route::get('/v1/user', 'Api\UserController@getUser');
     // Books
     Route::get('/v1/books/all', 'Api\BookController@getAll');
+    Route::put('/v1/books/new', 'Api\BookController@addBook');
     Route::get('/v1/books/list', 'Api\BookController@getBookList');
     // Route::put('/v1/books/list/add', 'Api\BookController@addBookToList');
     Route::put('/v1/books/list/update', 'Api\BookController@updateBookList');

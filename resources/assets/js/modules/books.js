@@ -23,7 +23,7 @@ export const books = {
             commit( 'setBooks', response.data.books );
             commit( 'setBooksLoadingStatus', 2 );
             // get all the user's books
-            // let bookList = response.data.books.filter( b => b.user_id === rootState.users.user.id );
+            // let bookList = response.data.books.filter( b => b.user_id === rootState.user.id );
             // commit( 'setBookList', bookList );
 
           })
@@ -58,7 +58,7 @@ export const books = {
       return new Promise(( resolve, reject ) => {
         BooksApi.addBookToList(book_id)
           .then( function( response ) {
-            commit('addBookToList', { user_id: rootState.users.user.id, book_id });
+            commit('addBookToList', { user_id: rootState.user.id, book_id });
             resolve();
           })
           .catch( function( error ) {
@@ -78,14 +78,14 @@ export const books = {
             console.log(response);
             switch ( type ) {
               case "add":
-                commit('addBookToList', { user_id: rootState.users.user.id, book_id });
+                commit('addBookToList', { user_id: rootState.user.id, book_id });
                 break;
               case "remove":
-                commit('removeBookFromList', { user_id: rootState.users.user.id, book_id });
+                commit('removeBookFromList', { user_id: rootState.user.id, book_id });
                 break;
               case "currently_reading":
                 if ( action === true ) {
-                  commit('addBookToList', { user_id: rootState.users.user.id, book_id });
+                  commit('addBookToList', { user_id: rootState.user.id, book_id });
                 }
                 commit('setReadingStatus', { book_id, action });
                 break;
@@ -94,8 +94,21 @@ export const books = {
                 break;
             }
 
-          })
-      })
+          });
+      });
+    },
+    submitNewBook({ commit }, info) {
+      return new Promise(( resolve, reject ) => {
+        BooksApi.submitNewBook( info )
+        .then( function( response ) {
+          console.log(response);
+          resolve();
+        })
+        .catch( function( error ) {
+          console.log( error );
+          reject();
+        })
+      });
     }
    },
   mutations: {

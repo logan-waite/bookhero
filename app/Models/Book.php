@@ -17,4 +17,8 @@ class Book extends Model
     public function attributes() {
       return $this->hasMany( BookAttribute::class );
     }
+
+    public function contributions() {
+      return $this->hasMany( Contribution::class );
+    }
 }
