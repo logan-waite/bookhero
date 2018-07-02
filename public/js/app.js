@@ -51501,14 +51501,14 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "Please select one or more attributes and give the book a rating between 1 and 5."
+              )
+            ]),
+            _vm._v(" "),
             _vm._l(_vm.book_attributes, function(ba) {
               return _c("div", { staticClass: "form-row" }, [
-                _c("p", [
-                  _vm._v(
-                    "Please select one or more attributes and give the book a rating between 1 and 5."
-                  )
-                ]),
-                _vm._v(" "),
                 _c("div", { staticClass: "form-group col-8" }, [
                   _c(
                     "select",

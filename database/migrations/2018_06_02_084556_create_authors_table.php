@@ -21,25 +21,25 @@ class CreateAuthorsTable extends Migration
         });
 
         // Seed some authors for testing
-        $table = DB::table('authors');
-        $table->insert(array(
-          'id' => 1,
-          'name' => 'Brandon Sanderson',
-          'created_at' => Carbon::now(),
-          'updated_at' => Carbon::now()
-        ));
-        $table->insert(array(
-          'id' => 2,
-          'name' => 'Jules Verne',
-          'created_at' => Carbon::now(),
-          'updated_at' => Carbon::now()
-        ));
-        $table->insert(array(
-          'id' => 3,
-          'name' => 'Paulo Coelho',
-          'created_at' => Carbon::now(),
-          'updated_at' => Carbon::now()
-        ));
+        // $table = DB::table('authors');
+        // $table->insert(array(
+        //   'id' => 1,
+        //   'name' => 'Brandon Sanderson',
+        //   'created_at' => Carbon::now(),
+        //   'updated_at' => Carbon::now()
+        // ));
+        // $table->insert(array(
+        //   'id' => 2,
+        //   'name' => 'Jules Verne',
+        //   'created_at' => Carbon::now(),
+        //   'updated_at' => Carbon::now()
+        // ));
+        // $table->insert(array(
+        //   'id' => 3,
+        //   'name' => 'Paulo Coelho',
+        //   'created_at' => Carbon::now(),
+        //   'updated_at' => Carbon::now()
+        // ));
     }
 
     /**

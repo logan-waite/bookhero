@@ -16,8 +16,8 @@
           <input class="form-control" type="text" placeholder="Summary" v-model="summary">
         </div>
       </div>
+      <p>Please select one or more attributes and give the book a rating between 1 and 5.</p>
       <div class="form-row" v-for="ba in book_attributes">
-        <p>Please select one or more attributes and give the book a rating between 1 and 5.</p>
         <div class="form-group col-8">
           <select class="form-control custom-select" v-model="ba.attr_id">
             <option disabled value="">Select an Attribute</option>

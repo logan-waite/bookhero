@@ -24,43 +24,43 @@ class CreateBooksTable extends Migration
         });
 
         // Seed some books for testing
-        $table = DB::table('books');
-        $table->insert(array(
-          'id' => 1,
-          'title' => 'Around the World in 80 Days',
-          'author_id' => 2,
-          'summary' => 'Man takes a bet to travel around the world in 80 days using the technology of the time.',
-          'cover_file_path' => null,
-          'created_at' => Carbon::now(),
-          'updated_at' => Carbon::now()
-        ));
-        $table->insert(array(
-          'id' => 2,
-          'title' => 'The Way of Kings',
-          'author_id' => 1,
-          'summary' => 'War is happening in Roshar. What will the people do?',
-          'cover_file_path' => null,
-          'created_at' => Carbon::now(),
-          'updated_at' => Carbon::now()
-        ));
-        $table->insert(array(
-          'id' => 3,
-          'title' => 'Journey to the Center of the Earth',
-          'author_id' => 2,
-          'summary' => 'What lies at the center of the earth?',
-          'cover_file_path' => null,
-          'created_at' => Carbon::now(),
-          'updated_at' => Carbon::now()
-        ));
-        $table->insert(array(
-          'id' => 4,
-          'title' => 'The Alchemist',
-          'author_id' => 3,
-          'summary' => 'Go on a journey of magic and discovery in search of the Alchemist.',
-          'cover_file_path' => null,
-          'created_at' => Carbon::now(),
-          'updated_at' => Carbon::now()
-        ));
+        // $table = DB::table('books');
+        // $table->insert(array(
+        //   'id' => 1,
+        //   'title' => 'Around the World in 80 Days',
+        //   'author_id' => 2,
+        //   'summary' => 'Man takes a bet to travel around the world in 80 days using the technology of the time.',
+        //   'cover_file_path' => null,
+        //   'created_at' => Carbon::now(),
+        //   'updated_at' => Carbon::now()
+        // ));
+        // $table->insert(array(
+        //   'id' => 2,
+        //   'title' => 'The Way of Kings',
+        //   'author_id' => 1,
+        //   'summary' => 'War is happening in Roshar. What will the people do?',
+        //   'cover_file_path' => null,
+        //   'created_at' => Carbon::now(),
+        //   'updated_at' => Carbon::now()
+        // ));
+        // $table->insert(array(
+        //   'id' => 3,
+        //   'title' => 'Journey to the Center of the Earth',
+        //   'author_id' => 2,
+        //   'summary' => 'What lies at the center of the earth?',
+        //   'cover_file_path' => null,
+        //   'created_at' => Carbon::now(),
+        //   'updated_at' => Carbon::now()
+        // ));
+        // $table->insert(array(
+        //   'id' => 4,
+        //   'title' => 'The Alchemist',
+        //   'author_id' => 3,
+        //   'summary' => 'Go on a journey of magic and discovery in search of the Alchemist.',
+        //   'cover_file_path' => null,
+        //   'created_at' => Carbon::now(),
+        //   'updated_at' => Carbon::now()
+        // ));
     }
 
     /**

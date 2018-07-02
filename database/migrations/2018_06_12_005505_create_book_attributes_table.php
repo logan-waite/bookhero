@@ -32,31 +32,31 @@ class CreateBookAttributesTable extends Migration
               ->onDelete('cascade');
         });
 
-        $table = DB::table('book_attributes');
-        $table->insert(array(
-          'id' => 1,
-          'book_id' => 1,
-          'attribute_id' => 1,
-          'value' => 4,
-          'created_at' => Carbon::now(),
-          'updated_at' => Carbon::now()
-        ));
-        $table->insert(array(
-          'id' => 2,
-          'book_id' => 1,
-          'attribute_id' => 2,
-          'value' => 2,
-          'created_at' => Carbon::now(),
-          'updated_at' => Carbon::now()
-        ));
-        $table->insert(array(
-          'id' => 3,
-          'book_id' => 2,
-          'attribute_id' => 1,
-          'value' => 6,
-          'created_at' => Carbon::now(),
-          'updated_at' => Carbon::now()
-        ));
+        // $table = DB::table('book_attributes');
+        // $table->insert(array(
+        //   'id' => 1,
+        //   'book_id' => 1,
+        //   'attribute_id' => 1,
+        //   'value' => 4,
+        //   'created_at' => Carbon::now(),
+        //   'updated_at' => Carbon::now()
+        // ));
+        // $table->insert(array(
+        //   'id' => 2,
+        //   'book_id' => 1,
+        //   'attribute_id' => 2,
+        //   'value' => 2,
+        //   'created_at' => Carbon::now(),
+        //   'updated_at' => Carbon::now()
+        // ));
+        // $table->insert(array(
+        //   'id' => 3,
+        //   'book_id' => 2,
+        //   'attribute_id' => 1,
+        //   'value' => 5,
+        //   'created_at' => Carbon::now(),
+        //   'updated_at' => Carbon::now()
+        // ));
     }
 
     /**

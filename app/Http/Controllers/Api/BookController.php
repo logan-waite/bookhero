@@ -113,6 +113,17 @@ class BookController extends Controller
             $list_record = new BookList;
             $list_record->user_id = auth()->user()->id;
             $list_record->book_id = $book_id;
+
+            if ( $input['action'] == true ) {
+              $currently_reading = BookList::where('user_id', $user_id)
+                                        ->where('currently_reading', true)
+                                        ->get();
+              foreach( $currently_reading as $book ) {
+                $book->currently_reading = false;
+                $book->save();
+              }
+            }
+
             $list_record->currently_reading = $input['action'];
 
             try {
@@ -126,7 +137,6 @@ class BookController extends Controller
               $currently_reading = BookList::where('user_id', $user_id)
                                         ->where('currently_reading', true)
                                         ->first();
-
               if( $currently_reading ) {
                 $currently_reading->currently_reading = false;
               }
