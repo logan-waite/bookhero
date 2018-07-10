@@ -17,6 +17,9 @@
           <div>
             <button type="submit" @click.prevent="login" class="btn btn-primary">Login</button>
           </div>
+          <div>
+            <router-link :to="{ name: 'register' }">Create an Account</router-link>
+          </div>
         </form>
       </div>
     </div>
@@ -42,7 +45,7 @@ export default {
               this.$router.push(this.$route.query.redirect);
             } else {
               this.$router.push( '/' );
-            }  
+            }
           });
         });
     }

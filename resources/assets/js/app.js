@@ -69,6 +69,12 @@ router.beforeEach((to, from, next) => {
           } else {
             next();
           }
+        })
+        .catch( function( error ) {
+          next({
+            path: '/login',
+            query: { redirect: to.fullPath }
+          });
         });
       } else {
         next();

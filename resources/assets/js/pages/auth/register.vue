@@ -37,7 +37,23 @@
     },
     methods: {
       register: function() {
+        var self = this;
+        var data = {
+          display_name: this.display_name,
+          email: this.email,
+          password: this.password,
+        }
 
+        this.$store.dispatch( 'register', data )
+        .then(function() {
+          self.$store.dispatch( 'login', { email: data.email, password: data.password })
+          .then( function() {
+            self.$router.push({ name: 'discover' });
+          })
+        })
+        .catch( function(error) {
+          console.log(error);
+        });
       }
     }
   }

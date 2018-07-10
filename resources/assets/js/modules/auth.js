@@ -23,6 +23,7 @@ export const auth = {
       return new Promise((resolve, reject) => {
         AuthAPI.login(info.email, info.password)
         .then( function( response ) {
+          console.log(response)
           localStorage.setItem( "token", response.data.access_token );
           window.axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.access_token;
           commit('setToken', response.data.access_token);
@@ -33,8 +34,16 @@ export const auth = {
         })
       });
     },
-    register: function({ commit }) {
-      
+    register: function({ commit }, info) {
+      return new Promise(( resolve, reject ) => {
+        AuthAPI.register(info.display_name, info.email, info.password)
+        .then( function(response) {
+          resolve();
+        })
+        .catch( function( error ) {
+          reject( error );
+        })
+      })
     }
   },
   mutations: {
