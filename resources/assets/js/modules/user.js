@@ -63,7 +63,7 @@ export const user = {
 
         return attributes;
       }
-      return false;
+      return [];
     }
   }
 }

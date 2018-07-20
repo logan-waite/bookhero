@@ -1,7 +1,7 @@
 <template>
   <div id='avatar'>
     <div class='prof-pic'>
-
+      <img src="/img/stick_hero.jpg">
     </div>
     <p class="name">
       {{ name }}

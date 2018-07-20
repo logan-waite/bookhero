@@ -1,5 +1,6 @@
 <template>
   <div id='discover'>
+    <p v-if="books.length === 0">No books? Head over to the contribute tab and add some books to read.</p>
     <book-tile
       v-for="book in books"
       v-if="! book.finished && book.user_id === null"

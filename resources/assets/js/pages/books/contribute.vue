@@ -32,7 +32,7 @@
       </div>
       <div class="form-row">
         <div class="form-group">
-          <button class="add-attribute btn btn-primary" @click.prevent="addAttribute()">
+          <button class="add-attribute btn btn-primary" :class="{ disabled: attributesFull }" @click.prevent="addAttribute()">
             <i class="fal fa-plus"></i> Add Attribute
           </button>
         </div>
@@ -72,10 +72,15 @@ export default {
     attributes: function() {
       return this.$store.state.attributes.attributes;
     },
+    attributesFull: function() {
+      return this.book_attributes.length === this.attributes.length;
+    }
   },
   methods: {
     addAttribute: function() {
-      this.book_attributes.push({ attr_id: '', value: 0 });
+      if ( this.book_attributes.length < this.attributes.length ) {
+        this.book_attributes.push({ attr_id: '', value: 0 });
+      }
     },
     submitBook: function() {
       let self = this;

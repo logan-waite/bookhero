@@ -17,8 +17,9 @@ class UserController extends Controller
   public function getUser()
   {
     $user_id = auth()->user()->id;
-    $user = User::with('attributes')->first();
+    $user = User::with('attributes')->where('id', $user_id)->first();
 
+    Log::info($user);
     return response()->json($user);
   }
 
