@@ -13,7 +13,7 @@
       </div>
       <div class="form-row">
         <div class="form-group col">
-          <input class="form-control" type="text" placeholder="Summary" v-model="summary">
+          <textarea class="form-control" type="text" placeholder="Summary" v-model="summary"></textarea>
         </div>
       </div>
       <p>Please select one or more attributes and give the book a rating between 1 and 5.</p>
