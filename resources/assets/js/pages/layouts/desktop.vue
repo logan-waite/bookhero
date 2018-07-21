@@ -3,14 +3,14 @@
     <navigation></navigation>
 
     <div class="row">
-      <div class='col left'>
+      <div class='col left d-none d-md-block' v-if="desktop">
         <avatar></avatar>
       </div>
-      <div class='col-5 center'>
+      <div class='col-md-5 center'>
         <!-- <discover></discover> -->
         <router-view></router-view>
       </div>
-      <div class='col-4 right'>
+      <div class='col-4 d-none d-md-block right'>
         <book-list></book-list>
       </div>
     </div>
@@ -24,11 +24,16 @@
   import Avatar from '../me/avatar.vue';
 
   export default {
+    data: function() {
+      return {
+        desktop: true,
+      }
+    },
     components: {
       Navigation,
       BookList,
       // Discover,
       Avatar,
-    }
+    },
   }
 </script>

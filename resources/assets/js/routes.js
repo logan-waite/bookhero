@@ -37,6 +37,7 @@ const router =  new VueRouter({
       name: "desktop",
       component: Vue.component( "desktop", require( './pages/layouts/desktop.vue' ) ),
       meta: { requiresAuth: true },
+      redirect: { name: 'discover'},
       children: [
         {
           path: '/discover',
@@ -48,6 +49,16 @@ const router =  new VueRouter({
           name: 'contribute',
           component: Vue.component( "contribute", require( './pages/books/contribute.vue' ) ),
         },
+        {
+          path: '/avatar',
+          name: 'avatar',
+          component: Vue.component( 'avatar', require( './pages/me/avatar.vue') )
+        },
+        {
+          path: '/books/list',
+          name: 'book-list',
+          component: Vue.component( 'book-list', require( './pages/books/list') )
+        }
       ]
     },
   ]
