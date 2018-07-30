@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { EventBus } from '../../event-bus.js';
+
 export default {
   data: function() {
     return {
@@ -41,6 +43,7 @@ export default {
         .then( () => {
           this.$store.dispatch('getUserInfo')
           .then( () => {
+            EventBus.$emit('loadCoreData')
             if ( this.$route.query.redirect !== undefined ) {
               this.$router.push(this.$route.query.redirect);
             } else {
