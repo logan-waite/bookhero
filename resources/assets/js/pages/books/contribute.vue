@@ -39,7 +39,7 @@
       </div>
       <div class="form-row">
         <div class="form-group">
-          <button class="submit-form btn btn-success" @click="submitBook()"> Submit Form </button>
+          <button class="submit-form btn btn-success" @click.prevent="submitBook()"> Submit Form </button>
         </div>
       </div>
     </form>
