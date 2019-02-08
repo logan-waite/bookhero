@@ -10452,6 +10452,12 @@ html {
   border: 1px solid blue;
 }
 
+#avatar .prof-pic img {
+  height: 100%;
+  width: 100%;
+  border-radius: 150px;
+}
+
 #avatar .name {
   font-size: 26px;
   margin: 15px 5px 10px;
